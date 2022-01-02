@@ -26,13 +26,10 @@ const AddStudent = () => {
         // ------
         .then(res => res.json())
             .then(data => {
-                if (data.insertedId) {
+                if (data.id) {
                     alert('Successfully added the user.')
                     e.target.reset();
                 }
-            }).catch(err => {
-                alert(err.message)
-                console.log(err);
             })
         e.preventDefault();
         console.log(newUser)
