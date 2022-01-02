@@ -1,5 +1,7 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Col, Container, Row, Table } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
     const [students, setStudents] = useState([]); 
@@ -11,6 +13,28 @@ const Home = () => {
                 console.log(data);
             });
     }, []);
+
+
+    // DELETE AN USER
+    const handleDeleteStudent = id => {
+        const proceed = window.confirm('Are you sure, you want to delete?');
+        if (proceed) {
+            // const url = ;
+            axios.delete(`http://127.0.0.1:8000/api/delete-student/${id}/`)
+                // .then(res => res.json()
+                // )
+                // .then(data => {
+                //     console.log("sdf", data);
+                //     // if (data.deletedCount > 0) {
+                //     //     alert('deleted successfully');
+                //         const remainingStudents = students.filter(student => student.id !== id);
+                //     setStudents(remainingStudents);
+                //     // }
+                // });
+        }
+        const remainingStudents = students.filter(student => student.id !== id);
+        setStudents(remainingStudents);
+    }
     return (
         <Container>
             <Row style={{height: '100vh'}} className="py-5">
@@ -42,7 +66,7 @@ const Home = () => {
                                     <td>{student.status}</td>
                                     <td>
                                         <button>update</button>
-                                        <button>delete</button>
+                                        <button onClick={() => handleDeleteStudent(student.id)}>delete</button>
                                     </td>
                                 </tr>
                             

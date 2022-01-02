@@ -7,7 +7,6 @@ const AddStudent = () => {
     const groupRef = useRef();
     const rollRef = useRef();
 
-
     const handleUserData = (e) => {
         e.preventDefault();
         const name = nameRef.current.value;
@@ -15,15 +14,14 @@ const AddStudent = () => {
         const group = groupRef.current.value;
         const roll = rollRef.current.value;
 
-        const newUser = { name: name, classs: classs, group: group, roll: roll };
+        const newStudent = { name: name, classs: classs, group: group, roll: roll };
         fetch('http://127.0.0.1:8000/api/add-student', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
             },
-            body: JSON.stringify(newUser)
+            body: JSON.stringify(newStudent)
         })
-        // ------
         .then(res => res.json())
             .then(data => {
                 if (data.id) {
@@ -32,7 +30,6 @@ const AddStudent = () => {
                 }
             })
         e.preventDefault();
-        console.log(newUser)
     }
 
     return (
