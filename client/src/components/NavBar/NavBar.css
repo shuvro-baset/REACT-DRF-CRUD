@@ -1,0 +1,18 @@
+.menu-item{
+    text-decoration: none;
+    color: #ff7c5b;
+    padding: 6px 10px;
+    margin: 10px;
+    border-radius: 20px;
+    font-family: 'Open Sans', sans-serif;
+    text-transform: uppercase;
+}
+.menu-item:hover{
+    color: #fff;
+}
+.navBar{
+    box-shadow: 5px 5px 15px #ff7c5be7;
+}
+.navBg{
+    background-color: #0d0e12;
+}
