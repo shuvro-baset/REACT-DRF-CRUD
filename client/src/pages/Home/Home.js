@@ -19,18 +19,7 @@ const Home = () => {
     const handleDeleteStudent = id => {
         const proceed = window.confirm('Are you sure, you want to delete?');
         if (proceed) {
-            // const url = ;
             axios.delete(`http://127.0.0.1:8000/api/delete-student/${id}/`)
-                // .then(res => res.json()
-                // )
-                // .then(data => {
-                //     console.log("sdf", data);
-                //     // if (data.deletedCount > 0) {
-                //     //     alert('deleted successfully');
-                //         const remainingStudents = students.filter(student => student.id !== id);
-                //     setStudents(remainingStudents);
-                //     // }
-                // });
         }
         const remainingStudents = students.filter(student => student.id !== id);
         setStudents(remainingStudents);
@@ -65,7 +54,7 @@ const Home = () => {
                                     <td>{student.roll}</td>
                                     <td>{student.status}</td>
                                     <td>
-                                        <button>update</button>
+                                        <Link to={`/update-student/${student.id}`}><button>update</button></Link>
                                         <button onClick={() => handleDeleteStudent(student.id)}>delete</button>
                                     </td>
                                 </tr>
