@@ -1,50 +1,85 @@
-import axios from 'axios';
-import React, { useEffect, useRef, useState } from 'react';
+
+import React, { useEffect, useState } from 'react';
 import { Col, Container, Form, Row } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 
 const UpdateStudent = () => {
+    const [updatedStudent, setUpdatedStudent] = useState({});
     const [student, setStudent] = useState({})
     const {id} = useParams()
     console.log(typeof id);
 
-    // getting specific user information 
     useEffect(() => {
-        fetch(`http://127.0.0.1:8000/api/student/${id}`)
-            .then(res =>{ res.json()
-                console.log(res);
-            })
+        fetch(`http://127.0.0.1:8000/api/get-student`)
+            .then(res => res.json())
             .then(data => {
-                setStudent(data)
-                console.log(data);
+                const st_data = data.filter(student => student.id === +id);
+                console.log(st_data);
+                setStudent(st_data[0]);
+
             });
     }, [id]);
 
-    const nameRef = useRef();
-    const classRef = useRef();
-    const groupRef = useRef();
-    const rollRef = useRef();
 
+
+     // Update User
+     const handleNameChange = e => {
+        const updatedName = e.target.value;
+        const updateStudentData = { name: updatedName, classs: student.classs, group: student.group, roll: student.roll};
+        setUpdatedStudent(updateStudentData);
+    }
+    const handleLClassChange = e => {
+        const updatedClass = e.target.value;
+        const updateStudentData = { name: student.name, classs: updatedClass, group: student.group, roll: student.roll};
+        setUpdatedStudent(updateStudentData);
+    }
+    const handleGroupChange = e => {
+        const updatedGroup = e.target.value;
+        const updateStudentData = { name: student.name, classs: student.classs, group: updatedGroup, roll: student.roll};
+        setUpdatedStudent(updateStudentData);
+    }
+
+    const handleRollChange = e => {
+        const updatedRoll = e.target.value;
+        const updateStudentData = { name: student.name, classs: student.classs, group: student.group, roll: updatedRoll};
+        setUpdatedStudent(updateStudentData);
+    }
+
+    const handleUpdateStudentInfo = (e) => {
+
+        const url = `http://127.0.0.1:8000/api/update-student/${id}`;
+        console.log(url);
+        fetch(url, {
+            method: 'PUT',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(updatedStudent)
+        })
+            .then(res => res.json())
+            .then(data => console.log(data))
+        e.preventDefault();
+    }
     return (
         <Container className="my-5">
                 <h2 className="text-center">Add Your Student Info.</h2>
 
             <Row className='d-flex justify-content-center align-items-center my-5'>
                 <Col md={6}>
-                    <Form >
+                    <Form onSubmit={handleUpdateStudentInfo}>
                         <Form.Group className="mb-3" >
-                            <Form.Control type="text" placeholder="Name" ref={nameRef} value={student.name} required />
+                            <Form.Control type="text" placeholder="Name" onChange={handleNameChange}  defaultValue={student.name || ''} required />
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="formBasicPassword">
-                            <Form.Control type="text" placeholder="Class" ref={classRef} value={student.classs} required />
+                            <Form.Control type="text" placeholder="Class" onChange={handleLClassChange} defaultValue={student.classs} required />
                         </Form.Group>
                         <Form.Group className="mb-3" >
-                            <Form.Control type="text" placeholder="Group" ref={groupRef} value={student.group} required />
+                            <Form.Control type="text" placeholder="Group" onChange={handleGroupChange} defaultValue={student.group} required />
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="formBasicPassword">
-                            <Form.Control type="number" placeholder="Roll" ref={rollRef} value={student.roll} required />
+                            <Form.Control type="number" placeholder="Roll" onChange={handleRollChange} defaultValue={student.roll} required />
                         </Form.Group>
                         
                         <button className="btn btn-primary" type="submit">

@@ -25,7 +25,6 @@ class CreateStudentViewSet(ViewSet):
 class StudentViewSet(viewsets.ModelViewSet):
     queryset = Student.objects.all().order_by('name')
     serializer_class = StudentSerializer
-
     def get_queryset(self):
         name = self.request.query_params.get('name')
         print(name)
@@ -39,14 +38,14 @@ class StudentViewSet(viewsets.ModelViewSet):
 
 
 class SingleStudentViewSet(ViewSet):
-    queryset = Student.objects.all()
+    # queryset = Student.objects.all()
 
     def retrieve(self, request, id, format=None):
 
         student_ins = Student.objects.filter(pk=id).first()
         print(student_ins)
         if student_ins:
-            serializer = StudentSerializer(student_ins, context={'request': request})
+            serializer = StudentSerializer(student_ins)
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
