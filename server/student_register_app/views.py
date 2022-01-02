@@ -36,3 +36,19 @@ class StudentViewSet(viewsets.ModelViewSet):
 
     def get_serializer_context(self):
         return {'request': self.request}
+
+
+class SingleStudentViewSet(ViewSet):
+    queryset = Student.objects.all()
+
+    # serializer_class = InventorySerializer
+
+    def retrieve(self, request, id, format=None):
+
+        student_ins = Student.objects.filter(pk=id).first()
+        print(student_ins)
+        if student_ins:
+            serializer = StudentSerializer(student_ins, context={'request': request})
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
