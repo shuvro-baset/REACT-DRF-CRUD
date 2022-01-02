@@ -41,8 +41,6 @@ class StudentViewSet(viewsets.ModelViewSet):
 class SingleStudentViewSet(ViewSet):
     queryset = Student.objects.all()
 
-    # serializer_class = InventorySerializer
-
     def retrieve(self, request, id, format=None):
 
         student_ins = Student.objects.filter(pk=id).first()
@@ -52,3 +50,30 @@ class SingleStudentViewSet(ViewSet):
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
+
+class UpdateStudentViewSet(ViewSet):
+    queryset = Student.objects.all()
+
+    def patch(self, request, id, format=None):
+        student_ins = Student.objects.filter(pk=id).first()
+        print(student_ins)
+        if student_ins:
+            serializer = StudentSerializer(student_ins, data=request.data, partial=True)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class DeleteStudentViewSet(ViewSet):
+    queryset = Student.objects.all()
+
+    def delete(self, request, id, format=None):
+        student_ins = Student.objects.filter(pk=id).first()
+        print(student_ins)
+        if student_ins:
+            student_ins.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
