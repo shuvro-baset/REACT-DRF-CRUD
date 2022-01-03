@@ -7,13 +7,12 @@ from .models import Student
 from rest_framework import parsers, renderers, status
 
 
-# Create your views here.
+# Create New student views.
 class CreateStudentViewSet(ViewSet):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
 
     def create(self, request, format=None):
-
         serializer = StudentSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
@@ -22,12 +21,13 @@ class CreateStudentViewSet(ViewSet):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+# get all student data
 class StudentViewSet(viewsets.ModelViewSet):
     queryset = Student.objects.all().order_by('name')
     serializer_class = StudentSerializer
+
     def get_queryset(self):
         name = self.request.query_params.get('name')
-        print(name)
         if name:
             return Student.objects.filter(name=name)
         else:
@@ -37,25 +37,24 @@ class StudentViewSet(viewsets.ModelViewSet):
         return {'request': self.request}
 
 
+# getting single student data
 class SingleStudentViewSet(ViewSet):
-    # queryset = Student.objects.all()
-
     def retrieve(self, request, id, format=None):
 
         student_ins = Student.objects.filter(pk=id).first()
-        print(student_ins)
         if student_ins:
             serializer = StudentSerializer(student_ins)
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
+
+# Update student data
 class UpdateStudentViewSet(ViewSet):
     queryset = Student.objects.all()
 
     def patch(self, request, id, format=None):
         student_ins = Student.objects.filter(pk=id).first()
-        print(student_ins)
         if student_ins:
             serializer = StudentSerializer(student_ins, data=request.data, partial=True)
             if serializer.is_valid(raise_exception=True):
@@ -65,12 +64,12 @@ class UpdateStudentViewSet(ViewSet):
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+# delete student
 class DeleteStudentViewSet(ViewSet):
     queryset = Student.objects.all()
 
     def delete(self, request, id, format=None):
         student_ins = Student.objects.filter(pk=id).first()
-        print(student_ins)
         if student_ins:
             student_ins.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
