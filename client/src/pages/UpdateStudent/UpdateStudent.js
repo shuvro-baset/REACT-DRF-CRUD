@@ -9,15 +9,11 @@ const UpdateStudent = () => {
     const {id} = useParams()
     console.log(typeof id);
 
-    useEffect(() => {
-        fetch(`http://127.0.0.1:8000/api/get-student`)
-            .then(res => res.json())
-            .then(data => {
-                const st_data = data.filter(student => student.id === +id);
-                console.log(st_data);
-                setStudent(st_data[0]);
 
-            });
+    useEffect(() => {
+        fetch(`http://127.0.0.1:8000/api/student/${id}`)
+            .then(res => res.json())
+            .then(data => setStudent(data));
     }, [id]);
 
 
@@ -47,7 +43,7 @@ const UpdateStudent = () => {
 
     const handleUpdateStudentInfo = (e) => {
 
-        const url = `http://127.0.0.1:8000/api/update-student/${id}`;
+        const url = `http://127.0.0.1:8000/api/update-student/${id}/`;
         console.log(url);
         fetch(url, {
             method: 'PUT',
@@ -56,7 +52,13 @@ const UpdateStudent = () => {
             },
             body: JSON.stringify(updatedStudent)
         })
-            .then(res => res.json())
+            .then(res => {res.json()
+                if (res.status === 201) {
+                    alert('Student updated successfully');
+                    e.target.reset();
+                }
+            }
+            )
             .then(data => console.log(data))
         e.preventDefault();
     }
