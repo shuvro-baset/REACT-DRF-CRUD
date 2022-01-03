@@ -1,21 +1,21 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { Col, Container, Form, Row } from 'react-bootstrap';
-import { useHistory } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
+import { useHistory ,useLocation ,useParams  } from 'react-router-dom';
 
 const UpdateStudent = () => {
-    const [updatedStudent, setUpdatedStudent] = useState({});
+    // useState for store student data
     const [student, setStudent] = useState({})
+    // getting id
     const {id} = useParams()
-    console.log(typeof id);
+    
     // use location state 
     const location = useLocation();
     const history = useHistory();
     // set redirect url
     const redirect_uri = location.state?.from || '/home';
 
+    // getting single student data
     useEffect(() => {
         fetch(`http://127.0.0.1:8000/api/student/${id}`)
             .then(res => res.json())
@@ -23,34 +23,14 @@ const UpdateStudent = () => {
     }, [id]);
 
 
+    // useRef for taking input value for update student info
     const nameRef = useRef();
     const classRef = useRef();
     const groupRef = useRef();
     const rollRef = useRef();
 
-     // Update User
-    //  const handleNameChange = e => {
-    //     const updatedName = e.target.value;
-    //     const updateStudentData = { name: updatedName, classs: student.classs, group: student.group, roll: student.roll};
-    //     setUpdatedStudent(updateStudentData);
-    // }
-    // const handleLClassChange = e => {
-    //     const updatedClass = e.target.value;
-    //     const updateStudentData = { name: student.name, classs: updatedClass, group: student.group, roll: student.roll};
-    //     setUpdatedStudent(updateStudentData);
-    // }
-    // const handleGroupChange = e => {
-    //     const updatedGroup = e.target.value;
-    //     const updateStudentData = { name: student.name, classs: student.classs, group: updatedGroup, roll: student.roll};
-    //     setUpdatedStudent(updateStudentData);
-    // }
-
-    // const handleRollChange = e => {
-    //     const updatedRoll = e.target.value;
-    //     const updateStudentData = { name: student.name, classs: student.classs, group: student.group, roll: updatedRoll};
-    //     setUpdatedStudent(updateStudentData);
-    // }
-
+    
+    // handling student update function
     const handleUpdateStudentInfo = (e) => {
         const name = nameRef.current.value;
         const classs = classRef.current.value;
@@ -82,7 +62,7 @@ const UpdateStudent = () => {
 
     return (
         <Container className="my-5">
-                <h2 className="text-center">Add Your Student Info.</h2>
+                <h2 className="text-center text-white">Update Your Student Info.</h2>
 
             <Row className='d-flex justify-content-center align-items-center my-5'>
                 <Col md={6}>

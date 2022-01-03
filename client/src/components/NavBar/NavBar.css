@@ -1,6 +1,6 @@
 .menu-item{
     text-decoration: none;
-    color: #ff7c5b;
+    color: #f8f8f8;
     padding: 6px 10px;
     margin: 10px;
     border-radius: 20px;
@@ -8,11 +8,11 @@
     text-transform: uppercase;
 }
 .menu-item:hover{
-    color: #fff;
+    color: rgb(44, 200, 248);
 }
 .navBar{
-    box-shadow: 5px 5px 15px #ff7c5be7;
+    box-shadow: 3px 3px 10px #ebebebe7;
 }
 .navBg{
-    background-color: #0d0e12;
+    background-color: transparent;
 }

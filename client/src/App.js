@@ -5,13 +5,14 @@ import Home from './pages/Home/Home';
 import AddStudent from './pages/AddStudent/AddStudent';
 import UpdateStudent from './pages/UpdateStudent/UpdateStudent';
 import NavBar from './components/NavBar/NavBar';
-import Footer from './components/Footer/Footer';
+import NotFound from './pages/NotFound/NotFound';
 
 
 function App() {
   return (
     <>
       <Router>
+        {/* Navbar components  */}
         <NavBar />
         <Switch>
           <Route exact path="/">
@@ -20,15 +21,16 @@ function App() {
           <Route  path="/home">
             <Home />
           </Route>
-          
           <Route  path="/add-student">
             <AddStudent />
           </Route>
           <Route  path="/update-student/:id">
             <UpdateStudent />
           </Route>
+          <Route path="*">
+            <NotFound />
+          </Route>
         </Switch>
-        <Footer />
       </Router>
     </>
   );
